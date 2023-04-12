@@ -6,11 +6,11 @@
 /*   By: ataouaf <ataouaf@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 14:58:12 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/04/12 20:58:13 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/04/12 17:35:43 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/so_long.h"
+#include "../inc/so_long_bonus.h"
 
 int	check_args(char *ptr)
 {
@@ -46,6 +46,7 @@ void	ft_get_liine(t_data *data, char *file)
 	}
 	close(fd);
 }
+
 
 void	open_map(t_data *data, char *file)
 {
@@ -88,22 +89,19 @@ int	init_game(t_data *data, char *ptr)
 	i = ft_open_map(data);
 	if (i > 0)
 		ft_error_display(data, i);
-	i = player_path(data->game->map);
-	if (i > 0)
-		ft_error_display(data, i);
 	return (0);
 }
 
 void	leak()
 {
-	system("leaks so_long");
+	system("leaks so_long_bonus");
 }
 
-int	main(int argc, char **argv)
+int main(int argc, char **argv)
 {
+	atexit(leak);
 	t_data	data;
 
-	atexit(leak);
 	if (argc != 2)
 		ft_error("Error\nTry ./so_long maps.ber", &data);
 	if (!check_args(argv[1]))

@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long.h                                          :+:      :+:    :+:   */
+/*   so_long_bonus.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ataouaf <ataouaf@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/17 14:58:33 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/04/12 20:39:39 by ataouaf          ###   ########.fr       */
+/*   Created: 2023/04/01 17:53:25 by ataouaf           #+#    #+#             */
+/*   Updated: 2023/04/10 22:17:03 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_BONUS_H
-# define SO_LONG_BONUS_H
+#define SO_LONG_BONUS_H
 
 #include <stdio.h>
 #include <stdbool.h>
@@ -20,7 +20,6 @@
 #include <unistd.h>
 #include <limits.h>
 #include <mlx.h>
-#include <string.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1024
@@ -55,8 +54,19 @@ char	*ft_strjoin_gnl(char *s1, char *s2);
 # define PLAYER_ERROR	6
 # define EXIT_ERROR		7
 # define COLLECT_ERROR	8
-# define INVALID_EXIT	9
-# define INVALID_COINS	10
+
+typedef struct s_enemy {
+	int				enm_x;
+	int				enm_y;
+	void			*enm_img;
+	struct s_enemy	*next;
+}					t_enemy;
+
+typedef struct s_enemy_img {
+	int				enm_num;
+	void			*enm_img;
+	struct s_enemy	*next;
+}					t_enemy_img;
 
 typedef struct s_game
 {
@@ -67,6 +77,10 @@ typedef struct s_game
 	int		player_y;
 	int		moves;
 	int		collect;
+	int		enm_num;
+	int		enm_x;
+	int		enm_y;
+	int		current_key;
 	int		i;
 }			t_game;
 
@@ -75,8 +89,10 @@ typedef struct s_data {
 	void		*mlx_win;
 	void		*mlx_img;
 	t_game		*game;
+	t_enemy		*enm;
 }				t_data;
 
+void	ft_init_game(t_game *game);
 void	free_map(t_data *data);
 size_t	ft_strlen_nl(char *s);
 void	ft_error_display(t_data *data, int i);
@@ -84,9 +100,9 @@ void	ft_error_free(char *error, t_data *data);
 int		walls(t_data *data, int *height, int *width, int len);
 int		ft_open_map(t_data *data);
 void	open_map(t_data *data, char *file);
-char	*ft_strdup(char *s1);
+char	*ft_strdup(const char *s1);
 size_t	ft_strlen(const char *s);
-void	ft_error(char *msg, t_data *data);
+void	ft_error(char *msg , t_data *data);
 int		ft_exit(t_data *data);
 void	draw(t_data *data);
 void	ft_putstr_fd(char *s, int fd);
@@ -98,9 +114,13 @@ void	draw_img(char *img, int x, int y, t_data *data);
 void	ft_mlx(t_data *data);
 int		ft_strcmp(const char *s1, const char *s2);
 void	ft_putendl_fd(char *s, int fd);
-int		player_path(char **map);
-void	dfs(t_data *data);
-void	init_map(t_data *data, int fd, int height, char *file);
-void	free_args(char **map);
-void	ft_init_game(t_game *game);
-#endif
+void	player_path(t_data *data);
+void	*ft_memset(void *b, int c, size_t len);
+t_enemy	*init_enemies(t_data *data);
+char	*ft_itoa(int n);
+void	ft_move(t_data *data, int x, int y);
+void	ft_villain_anim(t_data *data);
+void	ft_check_villain_dir(t_enemy *temp, t_data *data, int *flag);
+void	ft_collect_animation(t_data *data);
+int	ft_animation(t_data *data);
+#endif 

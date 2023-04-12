@@ -6,11 +6,11 @@
 /*   By: ataouaf <ataouaf@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 16:36:40 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/04/12 20:17:21 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/04/12 14:32:02 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/so_long.h"
+#include "../inc/so_long_bonus.h"
 
 size_t	ft_strlen_nl(char *s)
 {
@@ -22,7 +22,7 @@ size_t	ft_strlen_nl(char *s)
 	return (i);
 }
 
-char	*ft_strdup(char *s1)
+char	*ft_strdup(const char *s1)
 {
 	int		i;
 	char	*str;
@@ -64,8 +64,4 @@ void	ft_error_display(t_data *data, int num)
 		ft_error_free("Error\nMap has no exit\n", data);
 	else if (num == COLLECT_ERROR)
 		ft_error_free("Error\nMap has no collectibles\n", data);
-	else if (num == INVALID_COINS)
-		ft_error_free("Error\nMap Invalid no way to collectibles\n", data);
-	else if (num == INVALID_EXIT)
-		ft_error_free("Error\nMap Invalid no way to exit\n", data);
 }
