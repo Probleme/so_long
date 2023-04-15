@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ataouaf <ataouaf@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 16:46:39 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/04/05 18:35:45 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/04/14 16:15:21 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/so_long.h"
 
-int	ft_check_chars(t_data *data)
+static int	ft_check_chars(t_data *data)
 {
 	int	height;
 	int	width;
@@ -33,7 +33,7 @@ int	ft_check_chars(t_data *data)
 	return (1);
 }
 
-int	char_check(t_data *data, char car, int *count)
+static int	char_check(t_data *data, char car, int *count)
 {
 	int	height;
 	int	width;
@@ -58,7 +58,7 @@ int	char_check(t_data *data, char car, int *count)
 	return (1);
 }
 
-int	check_every_char(t_data *data)
+static int	check_every_char(t_data *data)
 {
 	int	count;
 

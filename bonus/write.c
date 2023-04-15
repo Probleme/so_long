@@ -6,13 +6,13 @@
 /*   By: ataouaf <ataouaf@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 17:31:33 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/04/07 13:31:46 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/04/13 16:20:20 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/so_long_bonus.h"
 
-void    ft_putchar_fd(char c, int fd)
+void	ft_putchar_fd(char c, int fd)
 {
 	write(fd, &c, 1);
 }

@@ -6,32 +6,13 @@
 /*   By: ataouaf <ataouaf@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 13:20:23 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/04/12 17:30:40 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/04/15 16:13:50 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/so_long_bonus.h"
 
-void	free_dmap(char **map)
-{
-	while (*map)
-	{
-		free(*map);
-		map++;
-	}
-	free(map);
-	map = NULL;
-}
-
-void	ft_error(char *msg, t_data *data)
-{
-	ft_putendl_fd(msg, STDERR_FILENO);
-	free(data->game);
-	data->game = NULL;
-	exit(1);
-}
-
-void	ft_delete_list(t_enemy **head)
+void	delete_list(t_enemy **head)
 {
 	t_enemy	*next;
 
@@ -49,30 +30,48 @@ void	ft_delete_list(t_enemy **head)
 	*head = NULL;
 }
 
-void	free_map(t_data *data)
+void	ft_error(char *msg, t_data *data)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (i < data->game->height)
-	{
-		free(data->game->map[i]);
-		i++;
-	}
-	free(data->game->map);
-	data->game->map = NULL;
+	ft_putendl_fd(msg, STDERR_FILENO);
+	free(data->game);
+	data->game = NULL;
+	exit(1);
 }
 
 int	ft_exit(t_data *data)
 {
 	free_map(data);
-	// if (data->enm != NULL)
-	// 	ft_delete_list(&data->enm);
+	if (data->enm != NULL)
+		delete_list(&data->enm);
 	free(data->game);
 	data->game = NULL;
 	mlx_destroy_window(data->mlx_ptr, data->mlx_win);
 	exit(EXIT_SUCCESS);
 }
 
+void	error_free(char *error, t_data *data)
+{
+	free_map(data);
+	ft_putendl_fd(error, STDERR_FILENO);
+	exit(1);
+}
+
+void	error_display(t_data *data, int num)
+{
+	if (num == INVALID_RECT)
+		error_free("Error\nMap is not rectangular", data);
+	else if (num == INVALID_WALLS)
+		error_free("Error\nInvalid walls", data);
+	else if (num == INVALID_CHARS)
+		error_free("Error\nMap has invalid characters", data);
+	else if (num == PLAYER_ERROR)
+		error_free("Error\n Only 1 Player", data);
+	else if (num == EXIT_ERROR)
+		error_free("Error\nMap has no exit", data);
+	else if (num == COLLECT_ERROR)
+		error_free("Error\nMap has no collectibles", data);
+	else if (num == INVALID_COINS)
+		error_free("Error\nMap Invalid no way to collectible", data);
+	else if (num == INVALID_EXIT)
+		error_free("Error\nMap Invalid no way to exit", data);
+}

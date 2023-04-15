@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 14:58:12 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/04/12 17:35:43 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/04/15 16:14:18 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void	ft_get_liine(t_data *data, char *file)
 	close(fd);
 }
 
-
 void	open_map(t_data *data, char *file)
 {
 	int		fd;
@@ -60,8 +59,6 @@ void	open_map(t_data *data, char *file)
 	if (!data->game->map)
 		ft_error("Error\nMemory malloc", data);
 	fd = open(file, O_RDONLY);
-	if (fd < 0)
-		ft_error("Error\nFile openning", data);
 	height = 0;
 	while (1)
 	{
@@ -84,22 +81,18 @@ int	init_game(t_data *data, char *ptr)
 	ft_get_liine(data, ptr);
 	if (data->game->height == 0)
 		ft_error("Error\nMap Empty", data);
-	data->game->moves = 0;
 	open_map(data, ptr);
 	i = ft_open_map(data);
 	if (i > 0)
-		ft_error_display(data, i);
+		error_display(data, i);
+	i = dfs(data);
+	if (i > 0)
+		error_display(data, i);
 	return (0);
 }
 
-void	leak()
+int	main(int argc, char **argv)
 {
-	system("leaks so_long_bonus");
-}
-
-int main(int argc, char **argv)
-{
-	atexit(leak);
 	t_data	data;
 
 	if (argc != 2)
@@ -107,12 +100,12 @@ int main(int argc, char **argv)
 	if (!check_args(argv[1]))
 		ft_error("Error\nInvalid extension file", &data);
 	data.game = malloc(sizeof(t_game));
-	if (data.game == NULL)
+	if (!data.game)
 		ft_error("Error\nAllocation failed", &data);
 	ft_init_game(data.game);
 	init_game(&data, argv[1]);
 	open_map(&data, argv[1]);
-	ft_mlx(&data);
+	mlx(&data);
 	ft_exit(&data);
 	return (0);
 }

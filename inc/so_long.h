@@ -6,21 +6,19 @@
 /*   By: ataouaf <ataouaf@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 14:58:33 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/04/12 20:39:39 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/04/15 16:22:46 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SO_LONG_BONUS_H
-# define SO_LONG_BONUS_H
+#ifndef SO_LONG_H
+# define SO_LONG_H
 
-#include <stdio.h>
-#include <stdbool.h>
-#include <fcntl.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <limits.h>
-#include <mlx.h>
-#include <string.h>
+# include <stdio.h>
+# include <fcntl.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <limits.h>
+# include <mlx.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1024
@@ -33,15 +31,15 @@ char	*ft_get_line(char *save);
 char	*ft_strchr(char *s, int c);
 char	*ft_strjoin_gnl(char *s1, char *s2);
 
-# define WIDTH_WIN 1240
-# define HEIGHT_WIN 600
+# define WIDTH_WIN 1920
+# define HEIGHT_WIN 1080
 
 # define A		0
 # define S		1
 # define D		2
 # define Q		12
 # define W		13
-# define SPACE	49
+// # define SPACE	49
 # define ESC	53
 # define LEFT	123
 # define RIGHT	124
@@ -61,6 +59,7 @@ char	*ft_strjoin_gnl(char *s1, char *s2);
 typedef struct s_game
 {
 	char	**map;
+	char	**dmap;
 	int		width;
 	int		height;
 	int		player_x;
@@ -77,30 +76,27 @@ typedef struct s_data {
 	t_game		*game;
 }				t_data;
 
+void	draw_img(char *img, int x, int y, t_data *data);
+int		dfs(t_data *data);
 void	free_map(t_data *data);
 size_t	ft_strlen_nl(char *s);
-void	ft_error_display(t_data *data, int i);
-void	ft_error_free(char *error, t_data *data);
+void	error_display(t_data *data, int i);
+void	error_free(char *error, t_data *data);
 int		walls(t_data *data, int *height, int *width, int len);
 int		ft_open_map(t_data *data);
-void	open_map(t_data *data, char *file);
 char	*ft_strdup(char *s1);
 size_t	ft_strlen(const char *s);
 void	ft_error(char *msg, t_data *data);
 int		ft_exit(t_data *data);
 void	draw(t_data *data);
-void	ft_putstr_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
-void    ft_putchar_fd(char c, int fd);
 void	print_moves(t_data *data);
 void	msg_out(t_data *data, char c);
-void	draw_img(char *img, int x, int y, t_data *data);
-void	ft_mlx(t_data *data);
+void	mlx(t_data *data);
 int		ft_strcmp(const char *s1, const char *s2);
 void	ft_putendl_fd(char *s, int fd);
-int		player_path(char **map);
-void	dfs(t_data *data);
-void	init_map(t_data *data, int fd, int height, char *file);
 void	free_args(char **map);
 void	ft_init_game(t_game *game);
+char	**duplicate_map(char **map);
+
 #endif

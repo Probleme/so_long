@@ -6,13 +6,13 @@
 /*   By: ataouaf <ataouaf@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 14:58:12 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/04/12 20:58:13 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/04/15 16:23:05 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/so_long.h"
 
-int	check_args(char *ptr)
+static int	check_args(char *ptr)
 {
 	char	*search;
 
@@ -25,7 +25,7 @@ int	check_args(char *ptr)
 	return (0);
 }
 
-void	ft_get_liine(t_data *data, char *file)
+static void	ft_get_liine(t_data *data, char *file)
 {
 	int		fd;
 	char	*line;
@@ -47,7 +47,7 @@ void	ft_get_liine(t_data *data, char *file)
 	close(fd);
 }
 
-void	open_map(t_data *data, char *file)
+static void	open_map(t_data *data, char *file)
 {
 	int		fd;
 	char	*line;
@@ -76,45 +76,38 @@ void	open_map(t_data *data, char *file)
 	close(fd);
 }
 
-int	init_game(t_data *data, char *ptr)
+static int	init_game(t_data *data, char *ptr)
 {
 	int		i;
 
 	ft_get_liine(data, ptr);
 	if (data->game->height == 0)
 		ft_error("Error\nMap Empty", data);
-	data->game->moves = 0;
 	open_map(data, ptr);
 	i = ft_open_map(data);
 	if (i > 0)
-		ft_error_display(data, i);
-	i = player_path(data->game->map);
+		error_display(data, i);
+	i = dfs(data);
 	if (i > 0)
-		ft_error_display(data, i);
+		error_display(data, i);
 	return (0);
-}
-
-void	leak()
-{
-	system("leaks so_long");
 }
 
 int	main(int argc, char **argv)
 {
 	t_data	data;
 
-	atexit(leak);
 	if (argc != 2)
 		ft_error("Error\nTry ./so_long maps.ber", &data);
 	if (!check_args(argv[1]))
 		ft_error("Error\nInvalid extension file", &data);
 	data.game = malloc(sizeof(t_game));
-	if (data.game == NULL)
+	if (!data.game)
 		ft_error("Error\nAllocation failed", &data);
 	ft_init_game(data.game);
 	init_game(&data, argv[1]);
 	open_map(&data, argv[1]);
-	ft_mlx(&data);
+	mlx(&data);
 	ft_exit(&data);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ataouaf <ataouaf@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 16:36:40 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/04/12 20:17:21 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/04/14 16:30:37 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,30 +42,33 @@ char	*ft_strdup(char *s1)
 	return (str);
 }
 
-
-void	ft_error_free(char *error, t_data *data)
+char	**duplicate_map(char **map)
 {
-	free_map(data);
-	ft_putstr_fd(error, STDERR_FILENO);
-	exit(1);
+	int		y;
+	char	**dmap;
+
+	dmap = NULL;
+	y = 0;
+	while (map[y])
+		y++;
+	dmap = malloc(sizeof(char *) * (y + 1));
+	if (!dmap)
+		return (NULL);
+	y = 0;
+	while (map[y])
+	{
+		dmap[y] = ft_strdup(map[y]);
+		y++;
+	}
+	dmap[y] = 0;
+	return (dmap);
 }
 
-void	ft_error_display(t_data *data, int num)
+int	ft_exit(t_data *data)
 {
-	if (num == INVALID_RECT)
-		ft_error_free("Error\nMap is not rectangular\n", data);
-	else if (num == INVALID_WALLS)
-		ft_error_free("Error\nInvalid walls\n", data);
-	else if (num == INVALID_CHARS)
-		ft_error_free("Error\nMap has invalid characters\n", data);
-	else if (num == PLAYER_ERROR)
-		ft_error_free("Error\n Only 1 Player\n", data);
-	else if (num == EXIT_ERROR)
-		ft_error_free("Error\nMap has no exit\n", data);
-	else if (num == COLLECT_ERROR)
-		ft_error_free("Error\nMap has no collectibles\n", data);
-	else if (num == INVALID_COINS)
-		ft_error_free("Error\nMap Invalid no way to collectibles\n", data);
-	else if (num == INVALID_EXIT)
-		ft_error_free("Error\nMap Invalid no way to exit\n", data);
+	free_map(data);
+	free(data->game);
+	data->game = NULL;
+	mlx_destroy_window(data->mlx_ptr, data->mlx_win);
+	exit(EXIT_SUCCESS);
 }

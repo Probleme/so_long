@@ -6,13 +6,13 @@
 /*   By: ataouaf <ataouaf@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 16:52:35 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/04/02 21:24:14 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/04/13 14:13:45 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/so_long.h"
 
-int	side_walls(t_data *data, int len)
+static int	side_walls(t_data *data, int len)
 {
 	int	height;
 

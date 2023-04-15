@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 17:31:33 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/04/10 13:43:38 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/04/13 14:15:17 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,14 @@ void	ft_putstr_fd(char *s, int fd)
 
 void	ft_putendl_fd(char *s, int fd)
 {
-	ft_putstr_fd(s, fd);
-	ft_putchar_fd('\n', fd);
+	if (ft_strcmp(s, " move")
+		|| ft_strcmp(s, " moves") || ft_strcmp(s, "You made "))
+		ft_putstr_fd(s, fd);
+	else
+	{
+		ft_putstr_fd(s, fd);
+		ft_putchar_fd('\n', fd);
+	}
 }
 
 void	ft_putnbr_fd(int n, int fd)

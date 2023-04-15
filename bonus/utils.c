@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 16:36:40 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/04/12 14:32:02 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/04/13 21:35:05 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,26 +42,42 @@ char	*ft_strdup(const char *s1)
 	return (str);
 }
 
-
-void	ft_error_free(char *error, t_data *data)
+char	**duplicate_map(char **map)
 {
-	free_map(data);
-	ft_putstr_fd(error, STDERR_FILENO);
-	exit(1);
+	int		y;
+	char	**dmap;
+
+	y = 0;
+	while (map[y])
+		y++;
+	dmap = malloc(sizeof(char *) * (y + 1));
+	if (!dmap)
+		return (NULL);
+	y = 0;
+	while (map[y])
+	{
+		dmap[y] = ft_strdup(map[y]);
+		y++;
+	}
+	dmap[y] = 0;
+	return (dmap);
 }
 
-void	ft_error_display(t_data *data, int num)
+void	free_args(char **map)
 {
-	if (num == INVALID_RECT)
-		ft_error_free("Error\nMap is not rectangular\n", data);
-	else if (num == INVALID_WALLS)
-		ft_error_free("Error\nInvalid walls\n", data);
-	else if (num == INVALID_CHARS)
-		ft_error_free("Error\nMap has invalid characters\n", data);
-	else if (num == PLAYER_ERROR)
-		ft_error_free("Error\n Only 1 Player\n", data);
-	else if (num == EXIT_ERROR)
-		ft_error_free("Error\nMap has no exit\n", data);
-	else if (num == COLLECT_ERROR)
-		ft_error_free("Error\nMap has no collectibles\n", data);
+	int	y;
+
+	y = 0;
+	while (map[y])
+	{
+		free(map[y]);
+		y++;
+	}
+	free(map);
+	map = NULL;
+}
+
+void	free_map(t_data *data)
+{
+	free_args(data->game->map);
 }

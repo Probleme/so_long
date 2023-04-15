@@ -3,34 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   dfs.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ataouaf <ataouaf@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 11:31:28 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/04/12 21:02:07 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/04/14 20:45:40 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/so_long.h"
-
-char	**duplicate_map(char **map)
-{
-	int		y;
-	char	**dmap;
-
-	y = 0;
-	while (map[y])
-		y++;
-	dmap = malloc(sizeof(char *) * (y + 1));
-	if (!dmap)
-		return (NULL);
-	y = 0;
-	while (map[y++])
-	{
-		dmap[y] = ft_strdup(map[y]);
-	}
-	dmap[y] = 0;
-	return (dmap);
-}
 
 static	int	map_path(int y, int x, char **dmap, char **map)
 {
@@ -51,12 +31,13 @@ static	int	map_path(int y, int x, char **dmap, char **map)
 	return (0);
 }
 
-int	check_collectibles(char **map)
+static int	check_collectibles(char **map)
 {
 	int		x;
 	int		y;
 	char	**dmap;
 
+	dmap = NULL;
 	y = 0;
 	while (map[y])
 	{
@@ -66,15 +47,17 @@ int	check_collectibles(char **map)
 			if (map[y][x] == 'C')
 			{
 				dmap = duplicate_map(map);
-				if (map_path(y, x, dmap, map))
+				if (!map_path(y, x, dmap, map))
 				{
-					return (1);
+					free_args(dmap);
+					return (0);
 				}
+				free_args(dmap);
 			}
 		}
 		y += 1;
 	}
-	return (0);
+	return (1);
 }
 
 static	int	check_exit(int y, int x, char **dmap, char **map)
@@ -114,19 +97,24 @@ static	int	x_return(char **map, int *y)
 	return (x);
 }
 
-int	player_path(char **map)
+int	dfs(t_data *data)
 {
 	int		x;
 	int		y;
-	char	**dmap;
 
 	y = 0;
-	x = x_return(map, &y);
-	dmap = duplicate_map(map);
-	if (!check_exit(y, x, dmap, map))
+	x = x_return(data->game->map, &y);
+	data->game->dmap = duplicate_map(data->game->map);
+	if (!check_exit(y, x, data->game->dmap, data->game->map))
+	{
+		free_args(data->game->dmap);
 		return (INVALID_EXIT);
-	else if (!check_collectibles(map))
+	}
+	else if (!check_collectibles(data->game->map))
+	{
 		return (INVALID_COINS);
-	free(dmap);
+	}
+	free_args(data->game->map);
+	free_args(data->game->dmap);
 	return (VALID);
 }

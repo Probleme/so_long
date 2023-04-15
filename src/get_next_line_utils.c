@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ataouaf <ataouaf@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 16:53:51 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/04/10 15:02:08 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/04/15 15:28:41 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ char	*ft_strjoin_gnl(char *s1, char *s2)
 	if (!s1)
 	{
 		s1 = (char *)malloc(1 * sizeof(char));
+		if (!s1)
+			return (NULL);
 		s1[0] = '\0';
 	}
 	if (!s2)

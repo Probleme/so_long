@@ -6,27 +6,27 @@
 /*   By: ataouaf <ataouaf@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 18:41:21 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/04/12 14:18:39 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/04/15 16:42:48 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/so_long_bonus.h"
 
-static void	ft_villain_y(int y, t_enemy *temp, t_data *data)
+static void	enemy_y(int y, t_enemy *temp, t_data *data)
 {
 	if (data->game->map[y][temp->enm_x] == 'C')
 	{
 		data->game->map[temp->enm_y][temp->enm_x] = '0';
 		data->game->map[y][temp->enm_x] = 'N';
-		draw_img("assets/key1.xpm", temp->enm_x, temp->enm_y, data);
-		draw_img("assets/enemy.xpm", temp->enm_x, y, data);
+		draw_img("textures/key1.xpm", temp->enm_x, temp->enm_y, data);
+		draw_img("textures/enemy.xpm", temp->enm_x, y, data);
 	}
 	else
 	{
 		data->game->map[temp->enm_y][temp->enm_x] = '0';
 		data->game->map[y][temp->enm_x] = 'N';
-		draw_img("assets/bg.xpm", temp->enm_x, temp->enm_y, data);
-		draw_img("assets/enemy.xpm", temp->enm_x, y, data);
+		draw_img("textures/bg.xpm", temp->enm_x, temp->enm_y, data);
+		draw_img("textures/enemy.xpm", temp->enm_x, y, data);
 	}
 	temp->enm_y = y;
 	if (data->game->map[temp->enm_y][temp->enm_x] \
@@ -37,21 +37,21 @@ static void	ft_villain_y(int y, t_enemy *temp, t_data *data)
 	}
 }
 
-static void	ft_villain_x(int x, t_enemy *temp, t_data *data)
+static void	enemy_x(int x, t_enemy *temp, t_data *data)
 {
 	if (data->game->map[temp->enm_y][x] == 'C')
 	{
 		data->game->map[temp->enm_y][temp->enm_x] = 'C';
 		data->game->map[temp->enm_y][x] = 'N';
-		draw_img("assets/collect/key1.xpm", temp->enm_x, temp->enm_y, data);
-		draw_img("assets/enemy.xpm", x, temp->enm_y, data);
+		draw_img("textures/collect/key1.xpm", temp->enm_x, temp->enm_y, data);
+		draw_img("textures/enemy.xpm", x, temp->enm_y, data);
 	}
 	else if (data->game->map[temp->enm_y][x] == '0')
 	{
 		data->game->map[temp->enm_y][temp->enm_x] = '0';
 		data->game->map[temp->enm_y][x] = 'N';
-		draw_img("assets/bg.xpm", temp->enm_x, temp->enm_y, data);
-		draw_img("assets/enemy.xpm", x, temp->enm_y, data);
+		draw_img("textures/bg.xpm", temp->enm_x, temp->enm_y, data);
+		draw_img("textures/enemy.xpm", x, temp->enm_y, data);
 	}
 	temp->enm_x = x;
 	if (data->game->map[temp->enm_y][temp->enm_x] \
@@ -62,7 +62,7 @@ static void	ft_villain_x(int x, t_enemy *temp, t_data *data)
 	}
 }
 
-static void	ft_set_limit(int *limit, t_data *data)
+static void	set_limit(int *limit, t_data *data)
 {
 	if (data->game->collect == 0)
 		*limit = 30;
@@ -70,7 +70,7 @@ static void	ft_set_limit(int *limit, t_data *data)
 		*limit = 4000;
 }
 
-void	ft_villain_anim(t_data *data)
+void	enemy_anim(t_data *data)
 {
 	static int	i;
 	int			flag;
@@ -78,19 +78,19 @@ void	ft_villain_anim(t_data *data)
 	t_enemy		*temp;
 
 	temp = data->enm;
-	ft_set_limit(&limit, data);
+	set_limit(&limit, data);
 	i += 1;
 	while (temp)
 	{
-		ft_check_villain_dir(temp, data, &flag);
+		enemy_dir(temp, data, &flag);
 		if (flag == DOWN && i == limit)
-			ft_villain_y(temp->enm_y + 1, temp, data);
+			enemy_y(temp->enm_y + 1, temp, data);
 		if (flag == UP && i == limit)
-			ft_villain_y(temp->enm_y - 1, temp, data);
+			enemy_y(temp->enm_y - 1, temp, data);
 		if (flag == RIGHT && i == limit)
-			ft_villain_x(temp->enm_x + 1, temp, data);
+			enemy_x(temp->enm_x + 1, temp, data);
 		if (flag == LEFT && i == limit)
-			ft_villain_x(temp->enm_x - 1, temp, data);
+			enemy_x(temp->enm_x - 1, temp, data);
 		temp = temp->next;
 	}
 	if (i > limit)

@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 17:22:56 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/04/10 18:15:18 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/04/15 16:42:48 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	msg_out(t_data *data, char c)
 			ft_putstr_fd(" moves\n", 1);
 	}
 	else if (c == 'N')
-		ft_putstr_fd("Oh no! Goblin captured you!\n", 1);
+		ft_putstr_fd("Oh no! Enemy captured you!\n", 1);
 }
 
 void	print_moves(t_data *data)
@@ -49,8 +49,8 @@ void	print_moves(t_data *data)
 
 	data->game->moves += 1;
 	moves = ft_itoa(data->game->moves);
-	draw_img("assets/info.xpm", 0, 0, data);
-	mlx_string_put(data->mlx_ptr, data->mlx_win, 15, 24, 0x545252, moves);
+	draw_img("textures/info.xpm", 0, 0, data);
+	mlx_string_put(data->mlx_ptr, data->mlx_win, 10, 10, 0x545252, moves);
 	free(moves);
 	moves = NULL;
 }

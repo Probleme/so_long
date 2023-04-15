@@ -6,20 +6,19 @@
 /*   By: ataouaf <ataouaf@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 17:53:25 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/04/10 22:17:03 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/04/15 16:13:09 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_BONUS_H
-#define SO_LONG_BONUS_H
+# define SO_LONG_BONUS_H
 
-#include <stdio.h>
-#include <stdbool.h>
-#include <fcntl.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <limits.h>
-#include <mlx.h>
+# include <stdio.h>
+# include <fcntl.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <limits.h>
+# include <mlx.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1024
@@ -54,6 +53,8 @@ char	*ft_strjoin_gnl(char *s1, char *s2);
 # define PLAYER_ERROR	6
 # define EXIT_ERROR		7
 # define COLLECT_ERROR	8
+# define INVALID_EXIT	9
+# define INVALID_COINS	10
 
 typedef struct s_enemy {
 	int				enm_x;
@@ -62,15 +63,10 @@ typedef struct s_enemy {
 	struct s_enemy	*next;
 }					t_enemy;
 
-typedef struct s_enemy_img {
-	int				enm_num;
-	void			*enm_img;
-	struct s_enemy	*next;
-}					t_enemy_img;
-
 typedef struct s_game
 {
 	char	**map;
+	char	**dmap;
 	int		width;
 	int		height;
 	int		player_x;
@@ -95,32 +91,33 @@ typedef struct s_data {
 void	ft_init_game(t_game *game);
 void	free_map(t_data *data);
 size_t	ft_strlen_nl(char *s);
-void	ft_error_display(t_data *data, int i);
-void	ft_error_free(char *error, t_data *data);
+void	error_display(t_data *data, int i);
+void	error_free(char *error, t_data *data);
+void	free_args(char **map);
 int		walls(t_data *data, int *height, int *width, int len);
 int		ft_open_map(t_data *data);
 void	open_map(t_data *data, char *file);
 char	*ft_strdup(const char *s1);
 size_t	ft_strlen(const char *s);
-void	ft_error(char *msg , t_data *data);
+void	ft_error(char *msg, t_data *data);
 int		ft_exit(t_data *data);
 void	draw(t_data *data);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
-void    ft_putchar_fd(char c, int fd);
+void	ft_putchar_fd(char c, int fd);
 void	print_moves(t_data *data);
 void	msg_out(t_data *data, char c);
 void	draw_img(char *img, int x, int y, t_data *data);
-void	ft_mlx(t_data *data);
+void	mlx(t_data *data);
 int		ft_strcmp(const char *s1, const char *s2);
 void	ft_putendl_fd(char *s, int fd);
-void	player_path(t_data *data);
-void	*ft_memset(void *b, int c, size_t len);
 t_enemy	*init_enemies(t_data *data);
 char	*ft_itoa(int n);
-void	ft_move(t_data *data, int x, int y);
-void	ft_villain_anim(t_data *data);
-void	ft_check_villain_dir(t_enemy *temp, t_data *data, int *flag);
-void	ft_collect_animation(t_data *data);
-int	ft_animation(t_data *data);
+void	move(t_data *data, int x, int y);
+void	enemy_anim(t_data *data);
+void	enemy_dir(t_enemy *temp, t_data *data, int *flag);
+int		animation(t_data *data);
+char	**duplicate_map(char **map);
+int		dfs(t_data *data);
+
 #endif 

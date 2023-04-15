@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   enemy.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ataouaf <ataouaf@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 13:27:38 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/04/12 13:59:25 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/04/15 15:40:30 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,6 @@ static t_enemy	*new_enemy(int x, int y)
 	new_enemy->enm_y = y;
 	new_enemy->next = NULL;
 	return (new_enemy);
-}
-
-void	print_enemies(t_data *data)
-{
-	t_enemy	*temp;
-
-	temp = data->enm;
-	while (temp)
-	{
-		printf("enemy_x: %d\n", temp->enm_x);
-		temp = temp->next;
-	}
 }
 
 t_enemy	*init_enemies(t_data *data)
